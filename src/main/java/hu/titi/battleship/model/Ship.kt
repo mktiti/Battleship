@@ -16,7 +16,7 @@ class Ship(private val length: Int, private val position: Coordinate, private va
         val dx = if (vertical) 0 else 1
         val dy = 1 - dx
 
-        Pair(Coordinate(position.x + dx * i, position.y + dy * i), false)
+        Pair(Coordinate.of(position.x + dx * i, position.y + dy * i), false)
     }
 
     fun occupies(position: Coordinate) = tiles.map(Pair<Coordinate, Boolean>::first).contains(position)
@@ -36,7 +36,7 @@ class Ship(private val length: Int, private val position: Coordinate, private va
                 val y = position.y + if (vertical) dWide else dNarrow
 
                 if (validCoordinate(x, y)) {
-                    val coord = Coordinate(x, y)
+                    val coord = Coordinate.of(x, y)
                     if (coord !in tiles.map(Pair<Coordinate, *>::first)) add(0, coord)
                 }
             }

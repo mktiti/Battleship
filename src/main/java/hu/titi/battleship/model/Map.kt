@@ -32,7 +32,7 @@ class Map : Serializable {
 
     fun availableTargets(): Sequence<Coordinate> = fields.asSequence().withIndex().flatMap { (x, array) ->
         array.asSequence().withIndex().filterNot(IndexedValue<Boolean>::value).map { (y, _) ->
-            Coordinate(x, y)
+            Coordinate.of(x, y)
         }
     }
 
@@ -79,7 +79,7 @@ fun randomSetup(): List<Ship> {
 
         (0 until maxX).asSequence().flatMap { x ->
             (0 until maxY).asSequence().map { y ->
-                Coordinate(x, y)
+                Coordinate.of(x, y)
             }
         }.filter {
             canFit(field, it, size, vertical)

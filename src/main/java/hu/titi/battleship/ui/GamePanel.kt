@@ -117,7 +117,7 @@ class GamePanel(context: Context) : LinearLayout(context), GameView, PlayerListe
             val x = minOf((event.x / fieldView.width * SIZE).toInt(), SIZE - 1)
             val y = minOf((event.y / fieldView.height * SIZE).toInt(), SIZE - 1)
 
-            store.place(Coordinate(x, y))
+            store.place(Coordinate.of(x, y))
         }
     }
 

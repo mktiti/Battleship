@@ -29,7 +29,7 @@ class GameEngine(private val playerA: Player, private val playerB: Player, priva
             for (x in 0 until SIZE) {
                 for (y in 0 until SIZE) {
                     if (p.model[x, y]) {
-                        val coordinate = Coordinate(x, y)
+                        val coordinate = Coordinate.of(x, y)
                         Log.i(TAG, "updating: ($x, $y)")
                         p.view.updateTile(coordinate, if (p.model.shoot(coordinate).second == ShootResult.MISS) TileState.MISS else TileState.HIT)
                     }

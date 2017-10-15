@@ -1,6 +1,7 @@
 package hu.titi.battleship.model
 
 import android.util.Log
+import hu.titi.battleship.model.Coordinate.Companion.of
 import java.util.*
 
 private val DELTAS = listOf(Pair(-1, 0), Pair(1, 0), Pair(0, -1), Pair(0, 1))
@@ -53,14 +54,14 @@ class Bot(val opponentMap: Map) : PlayerListener {
         var y = targetShip[0].y - dy
 
         if (validCoordinate(x, y) && !opponentMap[x, y]) {
-            return Coordinate(x, y)
+            return Coordinate.of(x, y)
         }
 
         x = targetShip.last().x + dx
         y = targetShip.last().y + dy
 
         if (validCoordinate(x, y) && !opponentMap[x, y]) {
-            return Coordinate(x, y)
+            return Coordinate.of(x, y)
         }
 
         throw RuntimeException("Boat has no unchecked sides, but not sunk")
@@ -75,6 +76,6 @@ class Bot(val opponentMap: Map) : PlayerListener {
 
     private fun around(position: Coordinate) = DELTAS.asSequence().map {
         Pair(it.first + position.x, it.second + position.y)
-    }.filter(::validCoordinate).map(::Coordinate).filterNot(opponentMap::get)
+    }.filter(::validCoordinate).map { Coordinate.of(it) }.filterNot(opponentMap::get)
 
 }
