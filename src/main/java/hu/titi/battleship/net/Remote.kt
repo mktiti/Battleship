@@ -1,8 +1,8 @@
 package hu.titi.battleship.net
 
 import hu.titi.battleship.model.Coordinate
-import hu.titi.battleship.ui.GameView
 import hu.titi.battleship.model.Ship
+import hu.titi.battleship.ui.GameView
 import hu.titi.battleship.ui.TileState
 
 class Remote(private val isHost: Boolean, private val host: GameHost, private val view: GameView) : GameView {
