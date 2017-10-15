@@ -5,8 +5,11 @@ import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import hu.titi.battleship.model.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.linearLayout
+import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.sdk23.listeners.onClick
+import org.jetbrains.anko.textView
 import java.util.concurrent.atomic.AtomicBoolean
 
 interface GameView {

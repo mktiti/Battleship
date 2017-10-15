@@ -1,9 +1,9 @@
 package hu.titi.battleship.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import hu.titi.battleship.model.GameType
+import android.support.v7.app.AppCompatActivity
 import hu.titi.battleship.R
+import hu.titi.battleship.model.GameType
 import org.jetbrains.anko.button
 import org.jetbrains.anko.sdk23.listeners.onClick
 import org.jetbrains.anko.startActivity

@@ -36,8 +36,10 @@ class Store<T> {
 
     fun remove() {
         synchronized(lock) {
-            storage.removeAt(0)
-            lock.notify()
+            if (storage.isNotEmpty()) {
+                storage.removeAt(0)
+                lock.notify()
+            }
         }
     }
 

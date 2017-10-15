@@ -1,8 +1,11 @@
 package hu.titi.battleship.model
 
+import android.util.Log
 import java.io.Serializable
 
 val shipSizes = listOf(4, 3, 3, 2, 2, 2, 1, 1, 1, 1)
+
+private const val TAG = "ship"
 
 class Ship(private val length: Int, private val position: Coordinate, private val vertical: Boolean) : Serializable {
 
@@ -45,5 +48,13 @@ class Ship(private val length: Int, private val position: Coordinate, private va
 
 fun parseShip(string: String): Ship? {
     val ss = string.replace("{", "").replace("}", "").split(";")
-    return Ship(ss[0].toInt(), parseSafe(ss[1]) ?: return null, ss[2].toBoolean())
+    try {
+        return Ship(ss[0].toInt(), parseSafe(ss[1]) ?: return null, ss[2].toBoolean())
+    } catch (nfe: NumberFormatException) {
+        Log.i(TAG, "number format exception")
+        return null
+    } catch (aie: ArrayIndexOutOfBoundsException) {
+        Log.i(TAG, "array index out of bounds")
+        return null
+    }
 }
