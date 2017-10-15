@@ -1,8 +1,10 @@
-package hu.titi.battleship
+package hu.titi.battleship.model
 
-val ShipSizes = listOf(4, 3, 3, 2, 2, 2, 1, 1, 1, 1)
+import java.io.Serializable
 
-class Ship(private val length: Int, private val position: Coordinate, private val vertical: Boolean) {
+val shipSizes = listOf(4, 3, 3, 2, 2, 2, 1, 1, 1, 1)
+
+class Ship(private val length: Int, private val position: Coordinate, private val vertical: Boolean) : Serializable {
 
     var sunk = false
 
@@ -30,7 +32,7 @@ class Ship(private val length: Int, private val position: Coordinate, private va
                 val x = position.x + if (vertical) dNarrow else dWide
                 val y = position.y + if (vertical) dWide else dNarrow
 
-                if (hu.titi.battleship.validCoordinate(x, y)) {
+                if (validCoordinate(x, y)) {
                     val coord = Coordinate(x, y)
                     if (coord !in tiles.map(Pair<Coordinate, *>::first)) add(0, coord)
                 }
@@ -38,4 +40,10 @@ class Ship(private val length: Int, private val position: Coordinate, private va
         }
     }
 
+    override fun toString() = "{$length;$position;$vertical}"
+}
+
+fun parseShip(string: String): Ship? {
+    val ss = string.replace("{", "").replace("}", "").split(";")
+    return Ship(ss[0].toInt(), parseSafe(ss[1]) ?: return null, ss[2].toBoolean())
 }
