@@ -13,9 +13,7 @@ class GameHost : ServiceConnection, PlayerListener {
 
     private val serviceStore = Store<NetHostService>()
 
-    override fun await(prevResult: ShootResult): Coordinate? {
-        return serviceStore.visit().await(prevResult)
-    }
+    override fun await(prevResult: ShootResult) = serviceStore.visit().await(prevResult)
 
     override fun abort() {
         serviceStore.remove()
@@ -28,14 +26,7 @@ class GameHost : ServiceConnection, PlayerListener {
         }
     }
 
-    fun startAndWait(): Boolean {
-        /*return serviceStore {
-            startAndWait()
-        }
-        */
-
-        return serviceStore.visit().startAndWait()
-    }
+    fun startAndWait() = serviceStore.visit().startAndWait()
 
     private fun sendMessage(message: String): Boolean {
         return serviceStore {
