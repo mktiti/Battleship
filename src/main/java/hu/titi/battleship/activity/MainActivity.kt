@@ -2,6 +2,7 @@ package hu.titi.battleship.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import hu.titi.battleship.model.GameType
 import hu.titi.battleship.R
 import org.jetbrains.anko.button
 import org.jetbrains.anko.sdk23.listeners.onClick
@@ -18,14 +19,14 @@ class MainActivity : AppCompatActivity() {
             button {
                 textResource = R.string.start_pvp
                 onClick {
-                    startActivity<GameActivity>("pvp" to true)
+                    startActivity<LocalGameActivity>("type" to GameType.PVP)
                 }
             }
 
             button {
                 textResource = R.string.start_pvcpu
                 onClick {
-                    startActivity<GameActivity>("pvp" to false)
+                    startActivity<LocalGameActivity>("type" to GameType.BOT)
                 }
             }
 

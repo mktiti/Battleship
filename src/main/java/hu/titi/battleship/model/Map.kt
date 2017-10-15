@@ -1,12 +1,13 @@
-package hu.titi.battleship
+package hu.titi.battleship.model
 
+import java.io.Serializable
 import java.util.*
 
 const val SIZE = 10
 
 enum class ShootResult { MISS, HIT, SINK }
 
-class Map {
+class Map : Serializable {
 
     val over: Boolean
         get() = ships.all(Ship::sunk)
@@ -67,7 +68,7 @@ fun randomSetup(): List<Ship> {
     val ships = mutableListOf<Ship>()
     val field = Array(SIZE) { _ -> Array(SIZE) { false } }
 
-    for (size in ShipSizes) {
+    for (size in shipSizes) {
         val vertical = random.nextBoolean()
 
         val dx = if (vertical) 0 else (size - 1)
