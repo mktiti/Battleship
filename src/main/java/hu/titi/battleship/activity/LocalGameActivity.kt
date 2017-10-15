@@ -2,8 +2,8 @@ package hu.titi.battleship.activity
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import hu.titi.battleship.model.*
 import hu.titi.battleship.model.Map
 import hu.titi.battleship.net.GameHost
@@ -24,7 +24,7 @@ class LocalGameActivity : AppCompatActivity() {
 
         type = intent.getSerializableExtra("type") as GameType
 
-        if (type == GameType.REMOTE_HOST) {
+        if (type == GameType.REMOTE) {
             host = GameHost()
             bindService(Intent(this@LocalGameActivity, NetHostService::class.java), host, Context.BIND_AUTO_CREATE)
         }
@@ -51,11 +51,7 @@ class LocalGameActivity : AppCompatActivity() {
                 val playerA = Player(mapA, view = playerAPanel, listener = playerBPanel)
                 Pair(playerA, Player(mapB, view = playerBPanel, listener = Bot(playerA.model)))
             }
-            GameType.REMOTE_HOST -> {
-                Pair(Player(mapA, view = Remote(true, host, playerAPanel), listener = playerBPanel),
-                        Player(mapB, view = Remote(false, host, playerBPanel), listener = host))
-            }
-            GameType.REMOTE_CLIENT -> {
+            GameType.REMOTE -> {
                 Pair(Player(mapA, view = Remote(true, host, playerAPanel), listener = playerBPanel),
                         Player(mapB, view = Remote(false, host, playerBPanel), listener = host))
             }
@@ -96,7 +92,9 @@ class LocalGameActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        unbindService(host)
+        if (type == GameType.REMOTE) {
+            unbindService(host)
+        }
         super.onDestroy()
     }
 
@@ -108,13 +106,15 @@ class LocalGameActivity : AppCompatActivity() {
     override fun onBackPressed() {
         alert("Are you sure you want to quit?") {
             yesButton {
-                if (type == GameType.REMOTE_HOST) {
+                if (type == GameType.REMOTE) {
                     doAsync {
                         host.closeConnection()
                         runOnUiThread {
                             this@LocalGameActivity.finish()
                         }
                     }
+                } else {
+                    this@LocalGameActivity.finish()
                 }
             }
             noButton {  }

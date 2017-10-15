@@ -2,11 +2,11 @@ package hu.titi.battleship.model
 
 import android.os.Bundle
 import android.util.Log
-import hu.titi.battleship.ui.TileState
 import hu.titi.battleship.activity.LocalGameActivity
+import hu.titi.battleship.ui.TileState
 import java.io.Serializable
 
-enum class GameType : Serializable { PVP, BOT, REMOTE_HOST, REMOTE_CLIENT }
+enum class GameType : Serializable { PVP, BOT, REMOTE }
 
 private const val TAG = "engine"
 
@@ -16,9 +16,11 @@ class GameEngine(private val playerA: Player, private val playerB: Player, priva
     fun start(activity: LocalGameActivity) {
         var over = false
 
-        if (gameType != GameType.PVP) {
+        if (gameType == GameType.REMOTE) {
             playerA.view.showShips(playerA.model.ships)
             playerB.view.showShips(playerB.model.ships)
+        } else if (gameType == GameType.BOT) {
+            playerA.view.showShips(playerA.model.ships)
         }
 
         Log.i(TAG, "engine start")

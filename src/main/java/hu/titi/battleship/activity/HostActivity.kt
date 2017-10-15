@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
-import hu.titi.battleship.net.GameHost
-import hu.titi.battleship.model.GameType
-import hu.titi.battleship.net.NetHostService
 import hu.titi.battleship.R
+import hu.titi.battleship.model.GameType
+import hu.titi.battleship.net.GameHost
+import hu.titi.battleship.net.NetHostService
 import org.jetbrains.anko.*
 import java.net.Inet4Address
 import java.net.InetAddress
@@ -62,18 +62,10 @@ class HostActivity : AppCompatActivity() {
             host.closeConnection()
             if (host.startAndWait()) {
                 runOnUiThread {
-                    startActivity<LocalGameActivity>("type" to GameType.REMOTE_HOST)
+                    startActivity<LocalGameActivity>("type" to GameType.REMOTE)
                 }
             }
         }
-    }
-
-    override fun onStop() {
-        /*thread(name = "Host Close") {
-            host.closeConnection()
-        }
-        */
-        super.onStop()
     }
 
     private fun getIPAddress(): List<InetAddress> {
