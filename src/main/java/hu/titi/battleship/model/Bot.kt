@@ -1,4 +1,4 @@
-package hu.titi.battleship
+package hu.titi.battleship.model
 
 import android.util.Log
 import java.util.*
@@ -30,6 +30,8 @@ class Bot(val opponentMap: Map) : PlayerListener {
         previous = target
         return target
     }
+
+    override fun abort() {}
 
     private fun randomShoot() = opponentMap.availableTargets().toList().let {
         it[random.nextInt(it.size)]
