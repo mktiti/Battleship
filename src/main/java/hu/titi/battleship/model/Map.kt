@@ -87,8 +87,8 @@ fun randomSetup(): List<Ship> {
             val position = this[random.nextInt(this.size)]
             val ship = Ship(size, position, vertical)
             ships.add(ship)
-            for ((coord, _) in ship.tiles) {
-                field[coord.x][coord.y] = true
+            for ((coordinate, _) in ship.tiles) {
+                field[coordinate.x][coordinate.y] = true
             }
         }
     }

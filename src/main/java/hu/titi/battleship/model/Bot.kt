@@ -1,17 +1,16 @@
 package hu.titi.battleship.model
 
 import android.util.Log
-import hu.titi.battleship.model.Coordinate.Companion.of
 import java.util.*
 
-private val DELTAS = listOf(Pair(-1, 0), Pair(1, 0), Pair(0, -1), Pair(0, 1))
+private val deltas = listOf(Pair(-1, 0), Pair(1, 0), Pair(0, -1), Pair(0, 1))
 
-class Bot(val opponentMap: Map) : PlayerListener {
+class Bot(private val opponentMap: Map) : PlayerListener {
 
-    val random = Random()
+    private val random = Random()
 
-    val targetShip: MutableList<Coordinate> = mutableListOf()
-    var previous: Coordinate? = null
+    private val targetShip: MutableList<Coordinate> = mutableListOf()
+    private var previous: Coordinate? = null
 
     override fun await(prevResult: ShootResult): Coordinate {
         Thread.sleep(800)
@@ -74,7 +73,7 @@ class Bot(val opponentMap: Map) : PlayerListener {
         return around(targetShip.first()).firstOrNull() ?: throw RuntimeException("Boat has no unchecked neighbours, but not sunk")
     }
 
-    private fun around(position: Coordinate) = DELTAS.asSequence().map {
+    private fun around(position: Coordinate) = deltas.asSequence().map {
         Pair(it.first + position.x, it.second + position.y)
     }.filter(::validCoordinate).map { Coordinate.of(it) }.filterNot(opponentMap::get)
 

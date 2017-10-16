@@ -9,7 +9,6 @@ import hu.titi.battleship.model.*
 import hu.titi.battleship.ui.GameView
 import hu.titi.battleship.ui.TileState
 import org.jetbrains.anko.runOnUiThread
-import kotlin.concurrent.thread
 
 private const val TAG = "client"
 

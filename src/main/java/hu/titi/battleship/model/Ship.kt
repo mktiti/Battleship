@@ -19,7 +19,7 @@ class Ship(private val length: Int, private val position: Coordinate, private va
         Pair(Coordinate.of(position.x + dx * i, position.y + dy * i), false)
     }
 
-    fun occupies(position: Coordinate) = tiles.map(Pair<Coordinate, Boolean>::first).contains(position)
+    // fun occupies(position: Coordinate) = tiles.map(Pair<Coordinate, Boolean>::first).contains(position)
 
     fun hit(position: Coordinate): ShootResult {
         val indexed = tiles.withIndex().asSequence().find { (_, p) -> p.first == position } ?: return ShootResult.MISS
@@ -36,8 +36,8 @@ class Ship(private val length: Int, private val position: Coordinate, private va
                 val y = position.y + if (vertical) dWide else dNarrow
 
                 if (validCoordinate(x, y)) {
-                    val coord = Coordinate.of(x, y)
-                    if (coord !in tiles.map(Pair<Coordinate, *>::first)) add(0, coord)
+                    val coordinate = Coordinate.of(x, y)
+                    if (coordinate !in tiles.map(Pair<Coordinate, *>::first)) add(0, coordinate)
                 }
             }
         }

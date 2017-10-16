@@ -16,8 +16,8 @@ import kotlin.concurrent.thread
 class LocalGameActivity : AppCompatActivity() {
 
     private lateinit var gameEngine: GameEngine
-    lateinit var type: GameType
-    lateinit var host: GameHost
+    private lateinit var type: GameType
+    private lateinit var host: GameHost
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

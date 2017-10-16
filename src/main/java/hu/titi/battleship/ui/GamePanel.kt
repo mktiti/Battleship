@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.service.quicksettings.Tile
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
@@ -12,9 +11,7 @@ import android.view.View
 import android.widget.LinearLayout
 import hu.titi.battleship.model.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk23.listeners.onClick
 import org.jetbrains.anko.sdk23.listeners.onTouch
-import java.util.concurrent.atomic.AtomicBoolean
 
 interface GameView {
     fun updateTile(position: Coordinate, state: TileState): Boolean
@@ -46,7 +43,7 @@ class GamePanel(context: Context) : LinearLayout(context), GameView, PlayerListe
 
         init {
             layoutParams = LinearLayout.LayoutParams(0, matchParent, SIZE.toFloat())
-            onTouch { v, event ->
+            onTouch { _, event ->
                 fieldClick(event)
                 true
             }
@@ -69,8 +66,8 @@ class GamePanel(context: Context) : LinearLayout(context), GameView, PlayerListe
         }
     }
 
-    val fields: Array<Array<TileState>> = Array(SIZE) { x ->
-        Array(SIZE) { y ->
+    val fields: Array<Array<TileState>> = Array(SIZE) { _ ->
+        Array(SIZE) { _ ->
             TileState.UNKNOWN
         }
     }
