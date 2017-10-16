@@ -38,6 +38,10 @@ class GameHost : ServiceConnection, PlayerListener {
         serviceStore.visitIfPresent()?.closeConnection()
     }
 
+    fun setDisconnectListener(listener: () -> Unit) {
+        serviceStore.visit().setDisconnectListener(listener)
+    }
+
     fun gameOver(won: Boolean) {
         serviceStore {
             sendMessage("won $won")

@@ -23,6 +23,7 @@ class NetClientService : Service() {
 
     private val store = LinkedBlockingQueue<String>()
     @Volatile private var exiting = false
+    @Volatile private var onDisconnect: (() -> Unit)? = null
 
     inner class NetClientBinder : Binder() {
         fun getService() = this@NetClientService
@@ -51,6 +52,7 @@ class NetClientService : Service() {
                     exiting = true
                     store.clear()
                     store.put("exit")
+                    onDisconnect?.invoke()
                 } else {
                     Log.i(TAG, "received message: $line")
                     store.add(line)
@@ -82,6 +84,10 @@ class NetClientService : Service() {
         }
 
         return false
+    }
+
+    fun setDisconnectListener(listener: () -> Unit) {
+        onDisconnect = listener
     }
 
     fun awaitMessage(): String = store.take()

@@ -31,6 +31,7 @@ class NetHostService : Service() {
     private val store = Store<Coordinate?>()
     @Volatile private var exiting = false
     @Volatile private var queryEnabled = false
+    @Volatile private var onDisconnect: (() -> Unit)? = null
 
     inner class NetHostBinder : Binder() {
         fun getService() = this@NetHostService
@@ -53,11 +54,13 @@ class NetHostService : Service() {
                         Log.i(TAG, "Read line return null, exiting")
                         exiting = true
                         store.place(null)
+                        onDisconnect?.invoke()
                     }
                     line == "exit" -> {
                         Log.i(TAG, "EXIT signal received")
                         exiting = true
                         store.place(null)
+                        onDisconnect?.invoke()
                     }
                     queryEnabled -> parseSafe(line)?.let {
                         store.place(it)
@@ -69,6 +72,10 @@ class NetHostService : Service() {
             Log.i(TAG, "Client socket closed (listening)")
         }
 
+    }
+
+    fun setDisconnectListener(listener: () -> Unit) {
+        onDisconnect = listener
     }
 
     fun startAndWait(): Boolean {

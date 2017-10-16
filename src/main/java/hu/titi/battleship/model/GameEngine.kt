@@ -101,10 +101,11 @@ class GameEngine(private val playerA: Player, private val playerB: Player, priva
         outState.putBoolean("aPlays", !aPlays)
     }
 
-    private fun destroy() {
+    fun destroy() {
+        Log.i(TAG, "Aborting (destroy)")
+        running = false
         playerA.listener.abort()
         playerB.listener.abort()
-        running = false
     }
 
 }

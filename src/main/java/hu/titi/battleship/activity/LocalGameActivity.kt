@@ -59,7 +59,18 @@ class LocalGameActivity : AppCompatActivity() {
 
         gameEngine = GameEngine(a, b, type, aPlays)
 
+        /*
+        if (type == GameType.REMOTE) {
+            thread {
+                host.setDisconnectListener(gameEngine::destroy)
+            }
+        }
+        */
+
         thread(name = "GameEngine") {
+            if (type == GameType.REMOTE) {
+                host.setDisconnectListener(gameEngine::destroy)
+            }
             gameEngine.start(this@LocalGameActivity)
         }
     }

@@ -9,6 +9,7 @@ import hu.titi.battleship.model.*
 import hu.titi.battleship.ui.GameView
 import hu.titi.battleship.ui.TileState
 import org.jetbrains.anko.runOnUiThread
+import kotlin.concurrent.thread
 
 private const val TAG = "client"
 
@@ -35,6 +36,10 @@ class GameClient(private val context: Context,
         listenerStore.set(listener)
     }
 
+    fun setDisconnectListener(listener: () -> Unit) {
+        serviceStore.visit().setDisconnectListener(listener)
+    }
+
     fun run() {
 
         exiting = false
@@ -49,6 +54,7 @@ class GameClient(private val context: Context,
             val split = message.split(" ")
             when (split[0]) {
                 "exit" -> {
+                    listenerStore.visitIfPresent()?.abort()
                     running = false
                 }
 
@@ -92,14 +98,12 @@ class GameClient(private val context: Context,
                 }
 
                 "shoot" -> {
-                    listenerStore {
-                        val click = await(ShootResult.values()[split[1].toInt()])
-                        if (click == null) {
-                            running = false
-                            closeConnection()
-                        } else {
-                            serviceStore.visit().sendMessage(click.toString())
-                        }
+                    val click = listenerStore.visit().await(ShootResult.values()[split[1].toInt()])
+                    if (click == null) {
+                        running = false
+                        closeConnection()
+                    } else if (!exiting && running) {
+                        serviceStore.visit().sendMessage(click.toString())
                     }
                 }
             }
@@ -125,8 +129,9 @@ class GameClient(private val context: Context,
     }
 
     fun disconnect() {
+        Log.i(TAG, "Aborting")
+        listenerStore.visitIfPresent()?.abort()
         exiting = true
-        closeConnection()
     }
 
     fun closeConnection() {

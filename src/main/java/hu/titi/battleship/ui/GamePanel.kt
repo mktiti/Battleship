@@ -34,7 +34,7 @@ class GamePanel(context: Context) : LinearLayout(context), GameView, PlayerListe
 
     private val fieldView = FieldView()
     @Volatile private var clickEnabled: Boolean = false
-    private val store = Store<Coordinate>()
+    private val store = Store<Coordinate?>()
 
     inner class FieldView : View(context) {
         private val paints = Array(TileState.values().size) { i ->
@@ -128,7 +128,9 @@ class GamePanel(context: Context) : LinearLayout(context), GameView, PlayerListe
         return coordinate
     }
 
-    override fun abort() {}
+    override fun abort() {
+        store.place(null)
+    }
 
     override fun updateTile(position: Coordinate, state: TileState): Boolean {
         this[position] = state

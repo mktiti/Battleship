@@ -33,6 +33,7 @@ class RemoteGameActivity : AppCompatActivity() {
         client.setListener(hostPanel)
 
         thread(name = "NetClient") {
+            client.setDisconnectListener(hostPanel::abort)
             client.run()
         }
     }
