@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
@@ -15,7 +16,7 @@ import org.jetbrains.anko.sdk23.listeners.onTouch
 
 interface GameView {
     fun updateTile(position: Coordinate, state: TileState): Boolean
-    fun showShips(ships: Collection<Ship>): Boolean
+    fun showShips(over: Boolean, ships: Collection<Ship>): Boolean
     fun unveilShip(ship: Ship): Boolean
     fun gameOver(won: Boolean)
 }
@@ -27,7 +28,7 @@ enum class TileState(val color: Int) {
     HIT(Color.RED)
 }
 
-class GamePanel(context: Context) : LinearLayout(context), GameView, PlayerListener {
+class GamePanel(context: Context, attributes: AttributeSet? = null) : LinearLayout(context, attributes), GameView, PlayerListener {
 
     private val fieldView = FieldView()
     @Volatile private var clickEnabled: Boolean = false
@@ -74,7 +75,8 @@ class GamePanel(context: Context) : LinearLayout(context), GameView, PlayerListe
 
     init {
         orientation = VERTICAL
-        layoutParams = LinearLayout.LayoutParams(0, matchParent, 1F)
+        //layoutParams = LinearLayout.LayoutParams(0, matchParent, 1F)
+        //layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT)
         weightSum = (SIZE + 1).toFloat()
 
         // Header
@@ -138,10 +140,14 @@ class GamePanel(context: Context) : LinearLayout(context), GameView, PlayerListe
         return true
     }
 
-    override fun showShips(ships: Collection<Ship>): Boolean {
+    override fun showShips(over: Boolean, ships: Collection<Ship>): Boolean {
         context.runOnUiThread {
             ships.flatMap { it.tiles.map(Pair<Coordinate, Boolean>::first) }
-                    .forEach { this@GamePanel[it] = TileState.SHIP }
+                    .forEach {
+                        if (this@GamePanel[it] == TileState.UNKNOWN) {
+                            this@GamePanel[it] = TileState.SHIP
+                        }
+                    }
             fieldView.invalidate()
         }
         return true
@@ -159,8 +165,15 @@ class GamePanel(context: Context) : LinearLayout(context), GameView, PlayerListe
 
     override fun gameOver(won: Boolean) {}
 
+    private operator fun get(position: Coordinate) = fields[position.x][position.y]
+
     private operator fun set(position: Coordinate, value: TileState) {
         fields[position.x][position.y] = value
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val min = minOf(widthMeasureSpec, heightMeasureSpec)
+        super.onMeasure(min, min)
     }
 
 }
