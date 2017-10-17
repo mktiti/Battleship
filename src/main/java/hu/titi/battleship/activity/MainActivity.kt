@@ -45,7 +45,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             button {
-                textResource = R.string.settings
+                text = "Setup"
+                onClick {
+                    startActivity<MapSetupActivity>("maps" to 2)
+                }
             }
         }
 
