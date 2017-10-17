@@ -22,7 +22,7 @@ class ConnectActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        client = GameClient(ctx, this::onDisconnect, {})
+        client = GameClient(ctx, this::onDisconnect, {}, {})
         bindService(intentFor<NetClientService>(), client, Context.BIND_AUTO_CREATE)
 
         relativeLayout {
