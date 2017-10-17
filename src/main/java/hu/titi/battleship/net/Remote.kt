@@ -18,11 +18,14 @@ class Remote(private val isHost: Boolean, private val host: GameHost, private va
         return host.updateTile(isHost, position, state)
     }
 
-    override fun showShips(ships: Collection<Ship>): Boolean {
-        return if (isHost) {
-            view.showShips(ships)
-        } else {
-            host.showShips(ships)
+    override fun showShips(over: Boolean, ships: Collection<Ship>): Boolean = when {
+        over -> {
+            host.showShips(isHost, ships)
+            view.showShips(over, ships)
+        }
+        isHost -> view.showShips(over, ships)
+        else -> {
+            host.showShips(isHost, ships)
             true
         }
     }

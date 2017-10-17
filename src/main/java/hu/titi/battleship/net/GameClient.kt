@@ -14,7 +14,8 @@ private const val TAG = "client"
 
 class GameClient(private val context: Context,
                  private val disconnectCallback: () -> Unit,
-                 private val gameOverCallback: (Boolean) -> Unit) : ServiceConnection {
+                 private val gameOverCallback: (Boolean) -> Unit,
+                 private val messageUpdate: (Boolean) -> Unit) : ServiceConnection {
 
     private val serviceStore = Store<NetClientService>()
     private val hostViewStore = Store<GameView>()
@@ -51,6 +52,11 @@ class GameClient(private val context: Context,
             Log.i(TAG, "interpreting message: $message")
 
             val split = message.split(" ")
+            if (split[0] != "shoot" &&
+                    !(split[0] == "update" && split[1] == "a" && split[3] != ShootResult.MISS.ordinal.toString()) &&
+                    !(split[0] == "unveil" && split[1] == "a")) {
+                messageUpdate(false)
+            }
             when (split[0]) {
                 "exit" -> {
                     listenerStore.visitIfPresent()?.abort()
@@ -58,10 +64,11 @@ class GameClient(private val context: Context,
                 }
 
                 "show" -> {
-                    parseShip(split[1])?.let { ship ->
-                        clientViewStore {
+                    val isHost = split[1].toBoolean()
+                    parseShip(split[2])?.let { ship ->
+                        (if (isHost) hostViewStore else clientViewStore) {
                             Log.i(TAG, "[${Thread.currentThread().id}] showing ship - $ship")
-                            showShips(listOf(ship))
+                            showShips(true, listOf(ship))
                         }
                     }
                 }
@@ -97,6 +104,7 @@ class GameClient(private val context: Context,
                 }
 
                 "shoot" -> {
+                    messageUpdate(true)
                     val click = listenerStore.visit().await(ShootResult.values()[split[1].toInt()])
                     if (click == null) {
                         running = false

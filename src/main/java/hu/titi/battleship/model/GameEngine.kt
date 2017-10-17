@@ -10,17 +10,22 @@ enum class GameType : Serializable { PVP, BOT, REMOTE }
 
 private const val TAG = "engine"
 
-class GameEngine(private val playerA: Player, private val playerB: Player, private val gameType: GameType, private var aPlays: Boolean = false) {
+class GameEngine(private val playerA: Player,
+                 private val playerB: Player,
+                 private val gameType: GameType,
+                 private var aPlays: Boolean = false,
+                 private val messsageUpdate: (Boolean) -> Unit) {
+
     @Volatile private var running = true
 
     fun start(activity: LocalGameActivity) {
         var over = false
 
         if (gameType == GameType.REMOTE) {
-            playerA.view.showShips(playerA.model.ships)
-            playerB.view.showShips(playerB.model.ships)
+            playerA.view.showShips(false, playerA.model.ships)
+            playerB.view.showShips(false, playerB.model.ships)
         } else if (gameType == GameType.BOT) {
-            playerA.view.showShips(playerA.model.ships)
+            playerA.view.showShips(false, playerA.model.ships)
         }
 
         Log.i(TAG, "engine start")
@@ -39,6 +44,7 @@ class GameEngine(private val playerA: Player, private val playerB: Player, priva
 
         while (running && !over) {
             aPlays = !aPlays // Player A starts
+            messsageUpdate(aPlays)
             val overError = if (aPlays) {
                 turn(playerA, playerB)
             } else {
@@ -57,6 +63,9 @@ class GameEngine(private val playerA: Player, private val playerB: Player, priva
         }
 
         if (running) {
+            playerA.view.showShips(true, playerA.model.ships)
+            playerB.view.showShips(true, playerB.model.ships)
+
             playerA.view.gameOver(aPlays)
             playerB.view.gameOver(!aPlays)
 

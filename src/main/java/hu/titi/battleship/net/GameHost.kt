@@ -52,9 +52,9 @@ class GameHost : ServiceConnection, PlayerListener {
 
     fun unveilShip(isHost: Boolean, ship: Ship) = sendMessage("unveil ${isHost.aOrB()} $ship")
 
-    fun showShips(ships: Collection<Ship>) {
+    fun showShips(isHost: Boolean, ships: Collection<Ship>) {
         ships.forEach { ship ->
-            sendMessage("show $ship")
+            sendMessage("show $isHost $ship")
         }
     }
 
