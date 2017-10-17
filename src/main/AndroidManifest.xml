@@ -24,20 +24,25 @@
         <activity android:name=".activity.HostActivity"/>
         <activity
             android:name=".activity.LocalGameActivity"
+            android:theme="@style/Theme.GameTheme"
             android:screenOrientation="landscape"/>
+
         <activity
             android:name=".activity.RemoteGameActivity"
+            android:theme="@style/Theme.GameTheme"
             android:screenOrientation="landscape"/>
+
         <service
             android:name=".net.NetHostService"
             android:enabled="true"
-            android:exported="false" />
-
+            android:exported="false"/>
         <service
             android:name=".net.NetClientService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
 
+        <activity android:name=".activity.MapSetupActivity">
+        </activity>
     </application>
 
 </manifest>

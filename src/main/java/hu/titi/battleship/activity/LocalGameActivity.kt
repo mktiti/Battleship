@@ -1,9 +1,14 @@
 package hu.titi.battleship.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Window
+import android.view.WindowManager
+import android.widget.TextView
+import hu.titi.battleship.R
 import hu.titi.battleship.model.*
 import hu.titi.battleship.model.Map
 import hu.titi.battleship.net.GameHost
@@ -19,8 +24,12 @@ class LocalGameActivity : AppCompatActivity() {
     private lateinit var type: GameType
     private lateinit var host: GameHost
 
+    private lateinit var messageView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        setContentView(R.layout.activity_game)
 
         type = intent.getSerializableExtra("type") as GameType
 
@@ -29,14 +38,9 @@ class LocalGameActivity : AppCompatActivity() {
             bindService(Intent(this@LocalGameActivity, NetHostService::class.java), host, Context.BIND_AUTO_CREATE)
         }
 
-        val playerAPanel = GamePanel(this)
-        val playerBPanel = GamePanel(this)
-
-        linearLayout {
-            weightSum = 2F
-            addView(playerAPanel)
-            addView(playerBPanel)
-        }
+        val playerAPanel = findViewById(R.id.leftPanel) as GamePanel
+        val playerBPanel = findViewById(R.id.rightPanel) as GamePanel
+        messageView = findViewById(R.id.messageText) as TextView
 
         val mapA: Map = savedInstanceState?.getSerializable("mapA") as? Map ?: Map()
         val mapB: Map = savedInstanceState?.getSerializable("mapB") as? Map ?: Map()
@@ -57,7 +61,7 @@ class LocalGameActivity : AppCompatActivity() {
             }
         }
 
-        gameEngine = GameEngine(a, b, type, aPlays)
+        gameEngine = GameEngine(a, b, type, aPlays, this::updateMessage)
 
         /*
         if (type == GameType.REMOTE) {
@@ -75,12 +79,22 @@ class LocalGameActivity : AppCompatActivity() {
         }
     }
 
-    fun onGameEnd(aWon: Boolean) {
-        val message = when {
-            type == GameType.PVP -> "Player ${if (aWon) "1" else "2"} wins!"
-            aWon -> "You won!"
-            else -> "Better luck next time!"
+    fun updateMessage(isAPlaying: Boolean) {
+        runOnUiThread {
+            messageView.textResource = when (type) {
+                GameType.PVP -> if (isAPlaying) R.string.player_a_turn else R.string.player_b_turn
+                else -> if (isAPlaying) R.string.your_turn else R.string.opponent_turn
+            }
         }
+    }
+
+    fun onGameEnd(aWon: Boolean) {
+        messageView.textResource = when {
+            type == GameType.PVP -> if (aWon) R.string.player_a_wins else R.string.player_b_wins
+            aWon -> R.string.you_won
+            else -> R.string.opponent_won
+        }
+        /*
         alert(message, "Game over") {
             okButton {
                 this@LocalGameActivity.finish()
@@ -89,6 +103,7 @@ class LocalGameActivity : AppCompatActivity() {
                 this@LocalGameActivity.finish()
             }
         }.show()
+        */
     }
 
     fun onDisconnected() {
