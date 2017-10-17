@@ -49,28 +49,32 @@ class Bot(private val opponentMap: Map) : PlayerListener {
         val dx = if (vertical) 0 else 1
         val dy = 1 - dx
 
+        val targets = mutableListOf<Coordinate>()
+
         var x = targetShip[0].x - dx
         var y = targetShip[0].y - dy
 
         if (validCoordinate(x, y) && !opponentMap[x, y]) {
-            return Coordinate.of(x, y)
+            targets.add(Coordinate.of(x, y))
         }
 
         x = targetShip.last().x + dx
         y = targetShip.last().y + dy
 
         if (validCoordinate(x, y) && !opponentMap[x, y]) {
-            return Coordinate.of(x, y)
+            targets.add(Coordinate.of(x, y))
         }
 
-        throw RuntimeException("Boat has no unchecked sides, but not sunk")
+        return targets[random.nextInt(targets.size)]
     }
 
     private fun secondShipHit(prevResult: ShootResult): Coordinate {
         if (prevResult == ShootResult.HIT) {
             targetShip.add(previous!!)
         }
-        return around(targetShip.first()).firstOrNull() ?: throw RuntimeException("Boat has no unchecked neighbours, but not sunk")
+        val targets = around(targetShip.first()).toMutableList()
+        Collections.shuffle(targets)
+        return targets.firstOrNull() ?: throw RuntimeException("Boat has no unchecked neighbours, but not sunk")
     }
 
     private fun around(position: Coordinate) = deltas.asSequence().map {
