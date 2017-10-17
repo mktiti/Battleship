@@ -11,4 +11,14 @@
     <string name="start">Start</string>
     <string name="start_pvcpu">Player vs. CPU</string>
     <string name="start_pvp">Player vs. Player</string>
+
+    <string name="player_a_turn">Player A\'s turn</string>
+    <string name="player_b_turn">Player B\'s turn</string>
+    <string name="your_turn">Your turn</string>
+    <string name="opponent_turn">Waiting for opponent</string>
+
+    <string name="player_a_wins">Player A wins!</string>
+    <string name="player_b_wins">Player B wins!</string>
+    <string name="you_won">You won!</string>
+    <string name="opponent_won">Better luck next time!</string>
 </resources>
