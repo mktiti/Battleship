@@ -52,9 +52,9 @@ class GameClient(private val context: Context,
             Log.i(TAG, "interpreting message: $message")
 
             val split = message.split(" ")
-            if (split[0] != "shoot" &&
-                    !(split[0] == "update" && split[1] == "a" && split[3] != ShootResult.MISS.ordinal.toString()) &&
-                    !(split[0] == "unveil" && split[1] == "a")) {
+            if (!(split[0] == "shoot" ||
+                    (split[0] == "update" && split[1] == "a" && split[3] != TileState.MISS.ordinal.toString()) ||
+                    (split[0] == "unveil" && split[1] == "a"))) {
                 messageUpdate(false)
             }
             when (split[0]) {
