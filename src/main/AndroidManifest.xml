@@ -41,7 +41,9 @@
             android:enabled="true"
             android:exported="false"/>
 
-        <activity android:name=".activity.MapSetupActivity">
+        <activity
+            android:name=".activity.MapSetupActivity"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 

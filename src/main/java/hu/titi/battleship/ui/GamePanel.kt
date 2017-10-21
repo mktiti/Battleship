@@ -44,9 +44,9 @@ class GamePanel(context: Context, attributes: AttributeSet? = null) : LinearLayo
 
         init {
             layoutParams = LinearLayout.LayoutParams(0, matchParent, SIZE.toFloat())
-            onTouch { _, event ->
-                fieldClick(event)
-                //true
+            setOnTouchListener { _, motionEvent ->
+                fieldClick(motionEvent)
+                true
             }
         }
 

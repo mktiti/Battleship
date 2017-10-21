@@ -4,14 +4,18 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.nfc.Tag
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import org.jetbrains.anko.sdk23.coroutines.onTouch
+import org.jetbrains.anko.runOnUiThread
 
 private const val X_BLOCKS = 10
 private const val Y_BLOCKS = 9
 private const val SHIP_NUMBER = 10
+
+private const val TAG = "ship-view"
 
 class ShipView(context: Context, attributes: AttributeSet) : View(context, attributes) {
 
@@ -21,7 +25,7 @@ class ShipView(context: Context, attributes: AttributeSet) : View(context, attri
     }
     private val usedPaint = Paint().apply {
         style = Paint.Style.FILL
-        color = TileState.MISS.color
+        color = TileState.HIT.color
     }
     private val selectedPaint = Paint().apply {
         style = Paint.Style.FILL
@@ -32,16 +36,58 @@ class ShipView(context: Context, attributes: AttributeSet) : View(context, attri
     private var used = mutableListOf<Pair<Int, Int>>()
 
     init {
-        onTouch { _, event -> select(event) }
+        setOnTouchListener { _, motionEvent ->
+            select(motionEvent)
+            true
+        }
     }
 
     private fun select(event: MotionEvent) {
+        if (event.action == MotionEvent.ACTION_UP) {
+            val sizeX = width / X_BLOCKS
+            val sizeY = height / Y_BLOCKS
 
+            val size = minOf(sizeX, sizeY)
 
+            val startX = (width - X_BLOCKS * size) / 2F
+            val startY = (height - Y_BLOCKS * size) / 2F
 
+            val x = (event.x - startX).toInt()
+            val y = (event.y - startY).toInt()
+
+            Log.i(TAG, "X: $x, Y: $y")
+
+            if (x > X_BLOCKS * size || y > Y_BLOCKS * size) return
+
+            val col = minOf(x / size, Y_BLOCKS)
+            val row = minOf(y / size, X_BLOCKS)
+
+            Log.i(TAG, "row: $row, col: $col")
+
+            if (row % 2 == 0) return
+            val posY = row / 2
+
+            Log.i(TAG, "posy: $posY")
+
+            val width = 4 - posY
+            if (col % (width + 1) == 0) return
+            val posX = col / (width + 1)
+            if (posX > posY + 1) return
+
+            Log.i(TAG, "posx: $posX")
+
+            val pos = Pair(posX + 1, posY + 1)
+            if (pos !in used) {
+                selected = pos
+                invalidate()
+            }
+        }
     }
 
-    fun getSelected() = selected
+    fun getSelected(): Int? {
+        val s = selected
+        return if (s == null) null else 5 - s.second
+    }
 
     fun unselect() {
         selected = null
@@ -53,7 +99,9 @@ class ShipView(context: Context, attributes: AttributeSet) : View(context, attri
             used.add(it)
         }
         selected = null
-        invalidate()
+        context.runOnUiThread {
+            invalidate()
+        }
 
         return used.size == SHIP_NUMBER
     }
@@ -73,10 +121,10 @@ class ShipView(context: Context, attributes: AttributeSet) : View(context, attri
                 val posX = size + startX + (x - 1) * (width + 1) * size
                 val posY = size + startY + (y - 1) * 2 * size
 
-                val coord = Pair(x, y)
+                val coordinate = Pair(x, y)
                 val paint = when {
-                    selected == coord -> selectedPaint
-                    coord in used -> usedPaint
+                    selected == coordinate -> selectedPaint
+                    coordinate in used -> usedPaint
                     else -> availablePaint
                 }
 

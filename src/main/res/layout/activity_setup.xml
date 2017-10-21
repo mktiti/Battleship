@@ -43,7 +43,7 @@
                     android:layout_margin="10dp"
                     android:text="@string/randomize"/>
 
-                <Button
+                <CheckBox
                     android:id="@+id/rotate"
                     android:layout_toEndOf="@id/randomize"
                     android:layout_width="wrap_content"
