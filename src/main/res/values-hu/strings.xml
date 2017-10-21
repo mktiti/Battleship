@@ -27,4 +27,8 @@
     <string name="error">Hiba</string>
     <string name="confirm_exit">Biztos hogy ki akarsz lépni?</string>
     <string name="host_disconnected">Az első játékos kilépett a játékból!</string>
+
+    <string name="ok">OK</string>
+    <string name="rotate">Elforgat</string>
+    <string name="randomize">Véletlen</string>
 </resources>

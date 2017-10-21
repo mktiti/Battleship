@@ -22,10 +22,12 @@
     <string name="player_b_wins">Player 2 wins!</string>
     <string name="you_won">You won!</string>
     <string name="opponent_won">Better luck next time!</string>
+
     <string name="player_b_disconnect">Player 2 disconnected!</string>
     <string name="error">Error</string>
     <string name="confirm_exit">Are you sure you want to quit?</string>
     <string name="host_disconnected">Host has disconnected!</string>
+
     <string name="ok">OK</string>
     <string name="rotate">Rotate</string>
     <string name="randomize">Randomize</string>
