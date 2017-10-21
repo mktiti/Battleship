@@ -25,29 +25,19 @@ class HostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_host)
+
         host = GameHost()
         bindService(Intent(this@HostActivity, NetHostService::class.java), host, Context.BIND_AUTO_CREATE)
 
-        verticalLayout {
-            padding = 20
-
-            textView {
-                width = matchParent
-                textResource = R.string.waiting_for_connection
-            }
-
-            ipShow = textView {
-                textResource = R.string.waiting_for_ip
-                width = matchParent
-            }
-        }
-
+        ipShow = findViewById(R.id.ip_view) as TextView
+        ipShow.textResource = R.string.waiting_for_ip
 
         doAsync {
             val ips = getIPAddress()
             uiThread {
-                for (ip in ips) {
-                    ipShow.append("\n${ip.hostAddress}")
+                if (ips.isNotEmpty()) {
+                    ipShow.text = getString(R.string.ip_is, ips[0].hostAddress)
                 }
             }
         }
