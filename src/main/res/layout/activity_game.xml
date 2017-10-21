@@ -27,7 +27,8 @@
             <hu.titi.battleship.ui.GamePanel
                 android:id="@+id/leftPanel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
 
@@ -40,7 +41,8 @@
             <hu.titi.battleship.ui.GamePanel
                 android:id="@+id/rightPanel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
 
