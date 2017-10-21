@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Battleship</string>
     <string name="connect_to_game">Connect to game</string>
@@ -12,13 +13,17 @@
     <string name="start_pvcpu">Player vs. CPU</string>
     <string name="start_pvp">Player vs. Player</string>
 
-    <string name="player_a_turn">Player A\'s turn</string>
-    <string name="player_b_turn">Player B\'s turn</string>
+    <string name="player_a_turn">Player 1\'s turn</string>
+    <string name="player_b_turn">Player 2\'s turn</string>
     <string name="your_turn">Your turn</string>
     <string name="opponent_turn">Waiting for opponent</string>
 
-    <string name="player_a_wins">Player A wins!</string>
-    <string name="player_b_wins">Player B wins!</string>
+    <string name="player_a_wins">Player 1 wins!</string>
+    <string name="player_b_wins">Player 2 wins!</string>
     <string name="you_won">You won!</string>
     <string name="opponent_won">Better luck next time!</string>
+    <string name="player_b_disconnect">Player 2 disconnected!</string>
+    <string name="error">Error</string>
+    <string name="confirm_exit">Are you sure you want to quit?</string>
+    <string name="host_disconnected">Host has disconnected!</string>
 </resources>

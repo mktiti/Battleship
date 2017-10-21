@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Torpedó</string>
+    <string name="connect_to_game">Csatlakozás Wifi játékhoz</string>
+    <string name="host_game">Wifi játék indítás</string>
+    <string name="settings">Beállítások</string>
+    <string name="ip">IP cím:</string>
+    <string name="connect">Csatlakozás</string>
+    <string name="waiting_for_connection">Csatlakozásra várás</string>
+    <string name="ip_is">IP: $1%s</string>
+    <string name="waiting_for_ip">IP cím lekérése</string>
+    <string name="start">Start</string>
+    <string name="start_pvcpu">Játékos vs. Gép</string>
+    <string name="start_pvp">Játékos vs. Játékos</string>
+
+    <string name="player_a_turn">Az első játékos következik</string>
+    <string name="player_b_turn">A második játékos következik</string>
+    <string name="your_turn">Te következel</string>
+    <string name="opponent_turn">Várakozás az ellenfélre</string>
+
+    <string name="player_a_wins">Az első játékos nyert!</string>
+    <string name="player_b_wins">A második játékos nyert!</string>
+    <string name="you_won">Te nyertél!</string>
+    <string name="opponent_won">Sok sikert <legközelebb></legközelebb>!</string>
+
+    <string name="player_b_disconnect">A kliens kilépett a játékból!</string>
+    <string name="error">Hiba</string>
+    <string name="confirm_exit">Biztos hogy ki akarsz lépni?</string>
+    <string name="host_disconnected">Az első játékos kilépett a játékból!</string>
+</resources>

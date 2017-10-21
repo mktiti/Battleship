@@ -107,7 +107,7 @@ class LocalGameActivity : AppCompatActivity() {
     }
 
     fun onDisconnected() {
-        alert("Player 2 disconnected!", "Error") {
+        alert(R.string.player_b_disconnect, R.string.error) {
             okButton {
                 this@LocalGameActivity.finish()
             }
@@ -130,7 +130,7 @@ class LocalGameActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        alert("Are you sure you want to quit?") {
+        alert(R.string.confirm_exit) {
             yesButton {
                 if (type == GameType.REMOTE) {
                     doAsync {

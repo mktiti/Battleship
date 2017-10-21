@@ -48,7 +48,7 @@ class RemoteGameActivity : AppCompatActivity() {
     }
 
     private fun onDisconnected() {
-        alert("Host has disconnected!", "Error") {
+        alert(R.string.host_disconnected, R.string.error) {
             okButton {
                 this@RemoteGameActivity.finish()
             }
@@ -67,7 +67,7 @@ class RemoteGameActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        alert("Are you sure you want to quit?") {
+        alert(R.string.confirm_exit) {
             yesButton {
                 thread(name = "Client close") {
                     client.disconnect()
