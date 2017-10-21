@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import hu.titi.battleship.R
 import hu.titi.battleship.model.GameType
 import org.jetbrains.anko.button
-import org.jetbrains.anko.sdk23.listeners.onClick
+import org.jetbrains.anko.sdk23.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.textResource
 import org.jetbrains.anko.verticalLayout

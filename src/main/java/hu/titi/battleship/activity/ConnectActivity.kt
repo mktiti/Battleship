@@ -10,7 +10,7 @@ import hu.titi.battleship.R
 import hu.titi.battleship.net.GameClient
 import hu.titi.battleship.net.NetClientService
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk23.listeners.onClick
+import org.jetbrains.anko.sdk23.coroutines.onClick
 
 private const val TAG = "client-activity"
 

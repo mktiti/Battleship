@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.LinearLayout
 import hu.titi.battleship.model.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk23.listeners.onTouch
+import org.jetbrains.anko.sdk23.coroutines.onTouch
 
 interface GameView {
     fun updateTile(position: Coordinate, state: TileState): Boolean
