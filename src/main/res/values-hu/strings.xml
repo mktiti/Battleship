@@ -6,8 +6,8 @@
     <string name="settings">Beállítások</string>
     <string name="ip">IP cím:</string>
     <string name="connect">Csatlakozás</string>
-    <string name="waiting_for_connection">Csatlakozásra várás</string>
-    <string name="ip_is">IP: $1%s</string>
+    <string name="waiting_for_connection">Csatlakozásra várakozás</string>
+    <string name="ip_is">IP: %s</string>
     <string name="waiting_for_ip">IP cím lekérése</string>
     <string name="start">Start</string>
     <string name="start_pvcpu">Játékos vs. Gép</string>
@@ -21,7 +21,7 @@
     <string name="player_a_wins">Az első játékos nyert!</string>
     <string name="player_b_wins">A második játékos nyert!</string>
     <string name="you_won">Te nyertél!</string>
-    <string name="opponent_won">Sok sikert <legközelebb></legközelebb>!</string>
+    <string name="opponent_won">Sok sikert legközelebb!</string>
 
     <string name="player_b_disconnect">A kliens kilépett a játékból!</string>
     <string name="error">Hiba</string>
