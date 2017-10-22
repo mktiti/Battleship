@@ -130,6 +130,10 @@ class GameClient(private val context: Context,
         }
     }
 
+    fun sendSetup(ships: List<Ship>) {
+        serviceStore.visit().sendMessage(ships.joinToString(prefix = "setup ", postfix = "", separator = "|"))
+    }
+
     fun tryConnect(hostAddress: String) = serviceStore {
         Log.i(TAG, "trying to connect")
         tryConnect(hostAddress)

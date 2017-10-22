@@ -15,6 +15,8 @@ class GameHost : ServiceConnection, PlayerListener {
 
     override fun await(prevResult: ShootResult) = serviceStore.visit().await(prevResult)
 
+    fun awaitSetup(): List<Ship>? = serviceStore.visit().awaitSetup()
+
     override fun abort() {
         serviceStore.remove()
     }

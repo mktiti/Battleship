@@ -5,10 +5,7 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
-import hu.titi.battleship.model.Coordinate
-import hu.titi.battleship.model.ShootResult
-import hu.titi.battleship.model.Store
-import hu.titi.battleship.model.parseSafe
+import hu.titi.battleship.model.*
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.InputStreamReader
@@ -29,6 +26,7 @@ class NetHostService : Service() {
     private var writer: BufferedWriter? = null
 
     private val store = Store<Coordinate?>()
+    private val setupStore = Store<List<Ship>?>()
     @Volatile private var exiting = false
     @Volatile private var queryEnabled = false
     @Volatile private var onDisconnect: (() -> Unit)? = null
@@ -54,13 +52,26 @@ class NetHostService : Service() {
                         Log.i(TAG, "Read line return null, exiting")
                         exiting = true
                         store.place(null)
+                        setupStore.place(null)
                         onDisconnect?.invoke()
                     }
                     line == "exit" -> {
                         Log.i(TAG, "EXIT signal received")
                         exiting = true
                         store.place(null)
+                        setupStore.place(null)
                         onDisconnect?.invoke()
+                    }
+                    line.startsWith("setup ") -> {
+                        val list = line.substring(6).split("|").map(::parseShip)
+                        if (list.any { it == null }) {
+                            Log.i(TAG, "Setup error")
+                            setupStore.place(null)
+                            store.place(null)
+                            onDisconnect?.invoke()
+                        } else {
+                            setupStore.place(list.requireNoNulls())
+                        }
                     }
                     queryEnabled -> parseSafe(line)?.let {
                         store.place(it)
@@ -106,6 +117,8 @@ class NetHostService : Service() {
         queryEnabled = false
         return coordinate
     }
+
+    fun awaitSetup(): List<Ship>? = setupStore.await()
 
     fun sendMessage(message: String): Boolean {
         Log.i(TAG, "sending message: $message")

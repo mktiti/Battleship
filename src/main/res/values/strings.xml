@@ -31,4 +31,6 @@
     <string name="ok">OK</string>
     <string name="rotate">Rotate</string>
     <string name="randomize">Randomize</string>
+    <string name="undo">Undo</string>
+    <string name="waiting_for_setup">Waiting for opponent</string>
 </resources>

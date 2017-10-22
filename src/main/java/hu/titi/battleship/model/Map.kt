@@ -7,14 +7,12 @@ const val SIZE = 10
 
 enum class ShootResult { MISS, HIT, SINK }
 
-class Map : Serializable {
+class Map(val ships: List<Ship> = randomSetup()) : Serializable {
 
     val over: Boolean
         get() = ships.all(Ship::sunk)
 
     private val fields = Array(SIZE) { _ -> Array(SIZE) { false } }
-
-    val ships = randomSetup()
 
     fun shoot(position: Coordinate): Pair<Ship?, ShootResult> {
         val result = ships.asSequence().map { Pair(it, it.hit(position)) }.find { it.second != ShootResult.MISS } ?: Pair(null, ShootResult.MISS)

@@ -5,11 +5,15 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.nfc.Tag
+import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import hu.titi.battleship.model.Coordinate
+import hu.titi.battleship.model.Ship
 import org.jetbrains.anko.runOnUiThread
+import java.io.Serializable
 
 private const val X_BLOCKS = 10
 private const val Y_BLOCKS = 9
@@ -84,14 +88,46 @@ class ShipView(context: Context, attributes: AttributeSet) : View(context, attri
         }
     }
 
+    fun save(bundle: Bundle) {
+        bundle.putSerializable("selected", selected as Serializable?)
+        bundle.putSerializable("used", used as Serializable)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun fromSaved(bundle: Bundle) {
+        selected = bundle.getSerializable("selected") as? Pair<Int, Int>
+        val usedSave = bundle.getSerializable("used")
+        if (usedSave != null && usedSave is List<*>) {
+            val usedShips: List<Pair<Int, Int>> = (usedSave as List<*>).filterIsInstance<Pair<Int, Int>>()
+            used.clear()
+            used.addAll(usedShips)
+        }
+        invalidate()
+    }
+
+    fun undo() {
+        if (used.isNotEmpty()) {
+            used.removeAt(used.size - 1)
+            invalidate()
+        }
+    }
+
+    fun allUsed() {
+        selected = null
+
+        used.clear()
+        for (y in 1..4) {
+            for (x in 1..y) {
+                used.add(Pair(x, y))
+            }
+        }
+
+        invalidate()
+    }
+
     fun getSelected(): Int? {
         val s = selected
         return if (s == null) null else 5 - s.second
-    }
-
-    fun unselect() {
-        selected = null
-        invalidate()
     }
 
     fun removeSelected(): Boolean {

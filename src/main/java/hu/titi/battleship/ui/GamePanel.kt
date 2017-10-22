@@ -131,6 +131,15 @@ class GamePanel(context: Context, attributes: AttributeSet? = null) : LinearLayo
         store.place(null)
     }
 
+    fun clear() {
+        for (x in 0 until SIZE) {
+            for (y in 0 until SIZE) {
+                this[Coordinate.of(x, y)] = TileState.UNKNOWN
+            }
+        }
+        invalidate()
+    }
+
     override fun updateTile(position: Coordinate, state: TileState): Boolean {
         this[position] = state
         context.runOnUiThread {

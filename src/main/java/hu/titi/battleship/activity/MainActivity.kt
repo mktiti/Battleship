@@ -44,12 +44,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            /*
             button {
                 text = "Setup"
                 onClick {
                     startActivity<MapSetupActivity>("maps" to 2)
                 }
             }
+            */
         }
 
     }

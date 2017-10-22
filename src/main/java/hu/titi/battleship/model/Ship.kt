@@ -7,7 +7,7 @@ val shipSizes = listOf(4, 3, 3, 2, 2, 2, 1, 1, 1, 1)
 
 private const val TAG = "ship"
 
-class Ship(val length: Int, private val position: Coordinate, private val vertical: Boolean) : Serializable {
+class Ship(private val length: Int, private val position: Coordinate, private val vertical: Boolean) : Serializable {
 
     var sunk = false
 

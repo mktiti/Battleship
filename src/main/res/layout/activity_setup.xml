@@ -16,52 +16,57 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
         android:layout_weight="1"
         android:layout_gravity="center_vertical">
 
         <hu.titi.battleship.ui.ShipView
             android:id="@+id/shipView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/buttons">
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/buttons">
 
         </hu.titi.battleship.ui.ShipView>
 
-        <ScrollView
-            android:id="@id/buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical">
 
-                <Button
-                    android:id="@+id/randomize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="@string/randomize"/>
+            <Button
+                android:id="@+id/randomize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/randomize"/>
 
-                <CheckBox
-                    android:id="@+id/rotate"
-                    android:layout_toEndOf="@id/randomize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="@string/rotate"/>
+            <CheckBox
+                android:id="@+id/rotate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/rotate"/>
 
-                <Button
-                    android:id="@+id/ok"
-                    android:layout_toEndOf="@id/rotate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:enabled="false"
-                    android:text="@string/ok"/>
+            <Button
+                android:id="@+id/undo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/undo"/>
 
-            </RelativeLayout>
-        </ScrollView>
+            <Button
+                android:id="@+id/ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:enabled="false"
+                android:text="@string/ok"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
         <!--
