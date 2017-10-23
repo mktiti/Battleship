@@ -14,7 +14,7 @@ class GameEngine(private val playerA: Player,
                  private val playerB: Player,
                  private val gameType: GameType,
                  private var aPlays: Boolean = false,
-                 private val messsageUpdate: (Boolean) -> Unit) {
+                 private val messageUpdate: (Boolean) -> Unit) {
 
     @Volatile private var running = true
 
@@ -44,7 +44,7 @@ class GameEngine(private val playerA: Player,
 
         while (running && !over) {
             aPlays = !aPlays // Player A starts
-            messsageUpdate(aPlays)
+            messageUpdate(aPlays)
             val overError = if (aPlays) {
                 turn(playerA, playerB)
             } else {

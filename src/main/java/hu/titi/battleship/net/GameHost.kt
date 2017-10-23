@@ -17,9 +17,7 @@ class GameHost : ServiceConnection, PlayerListener {
 
     fun awaitSetup(): List<Ship>? = serviceStore.visit().awaitSetup()
 
-    override fun abort() {
-        serviceStore.remove()
-    }
+    override fun abort() = serviceStore.remove()
 
     override fun onServiceConnected(className: ComponentName, binder: IBinder) {
         if (binder is NetHostService.NetHostBinder) {
@@ -30,19 +28,16 @@ class GameHost : ServiceConnection, PlayerListener {
 
     fun startAndWait() = serviceStore.visit().startAndWait()
 
-    private fun sendMessage(message: String): Boolean {
-        return serviceStore {
-            sendMessage(message)
-        }
+    private fun sendMessage(message: String): Boolean = serviceStore {
+        sendMessage(message)
     }
 
     fun closeConnection() {
         serviceStore.visitIfPresent()?.closeConnection()
     }
 
-    fun setDisconnectListener(listener: () -> Unit) {
-        serviceStore.visit().setDisconnectListener(listener)
-    }
+    fun setDisconnectListener(listener: () -> Unit) =
+            serviceStore.visit().setDisconnectListener(listener)
 
     fun gameOver(won: Boolean) {
         serviceStore {
@@ -54,10 +49,8 @@ class GameHost : ServiceConnection, PlayerListener {
 
     fun unveilShip(isHost: Boolean, ship: Ship) = sendMessage("unveil ${isHost.aOrB()} $ship")
 
-    fun showShips(isHost: Boolean, ships: Collection<Ship>) {
-        ships.forEach { ship ->
-            sendMessage("show $isHost $ship")
-        }
+    fun showShips(isHost: Boolean, ships: Collection<Ship>) = ships.forEach { ship ->
+        sendMessage("show $isHost $ship")
     }
 
     override fun onServiceDisconnected(className: ComponentName?) {

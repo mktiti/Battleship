@@ -24,21 +24,13 @@ class GameClient(private val context: Context,
 
     private var exiting = false
 
-    fun setHostView(view: GameView) {
-        hostViewStore.set(view)
-    }
+    fun setHostView(view: GameView) = hostViewStore.set(view)
 
-    fun setClientView(view: GameView) {
-        clientViewStore.set(view)
-    }
+    fun setClientView(view: GameView) = clientViewStore.set(view)
 
-    fun setListener(listener: PlayerListener) {
-        listenerStore.set(listener)
-    }
+    fun setListener(listener: PlayerListener) = listenerStore.set(listener)
 
-    fun setDisconnectListener(listener: () -> Unit) {
-        serviceStore.visit().setDisconnectListener(listener)
-    }
+    fun setDisconnectListener(listener: () -> Unit) = serviceStore.visit().setDisconnectListener(listener)
 
     fun run() {
 
@@ -120,7 +112,7 @@ class GameClient(private val context: Context,
             closeConnection()
             if (won != null) {
                 context.runOnUiThread {
-                    gameOverCallback(won ?: false)
+                    gameOverCallback(won == true)
                 }
             } else if (!running) {
                 context.runOnUiThread {

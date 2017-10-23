@@ -55,7 +55,7 @@ class LocalGameActivity : AppCompatActivity() {
 
         mapA = savedInstanceState?.getSerializable("mapA") as? Map?
         mapB = savedInstanceState?.getSerializable("mapB") as? Map?
-        aPlays = savedInstanceState?.getBoolean("aPlays") ?: false
+        aPlays = savedInstanceState?.getBoolean("aPlays") == true
 
         state = savedInstanceState?.getSerializable("state") as? GameState ?: GameState.A_SETUP
 
@@ -146,12 +146,10 @@ class LocalGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateMessage(isAPlaying: Boolean) {
-        runOnUiThread {
-            messageView.textResource = when (type) {
-                GameType.PVP -> if (isAPlaying) R.string.player_a_turn else R.string.player_b_turn
-                else -> if (isAPlaying) R.string.your_turn else R.string.opponent_turn
-            }
+    private fun updateMessage(isAPlaying: Boolean) = runOnUiThread {
+        messageView.textResource = when (type) {
+            GameType.PVP -> if (isAPlaying) R.string.player_a_turn else R.string.player_b_turn
+            else -> if (isAPlaying) R.string.your_turn else R.string.opponent_turn
         }
     }
 
@@ -162,16 +160,6 @@ class LocalGameActivity : AppCompatActivity() {
             else -> R.string.opponent_won
         }
         state = GameState.FINISHED
-        /*
-        alert(message, "Game over") {
-            okButton {
-                this@LocalGameActivity.finish()
-            }
-            onCancelled {
-                this@LocalGameActivity.finish()
-            }
-        }.show()
-        */
     }
 
     fun onDisconnected() {

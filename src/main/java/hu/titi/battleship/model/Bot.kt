@@ -31,7 +31,7 @@ class Bot(private val opponentMap: Map) : PlayerListener {
         return target
     }
 
-    override fun abort() {}
+    override fun abort() = Unit
 
     private fun randomShoot() = opponentMap.availableTargets().toList().let {
         it[random.nextInt(it.size)]

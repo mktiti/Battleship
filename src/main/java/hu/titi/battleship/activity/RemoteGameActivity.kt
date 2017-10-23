@@ -60,10 +60,8 @@ class RemoteGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateMessage(ownTurn: Boolean) {
-        runOnUiThread {
-            messageView.textResource = if (ownTurn) R.string.your_turn else R.string.opponent_turn
-        }
+    private fun updateMessage(ownTurn: Boolean) = runOnUiThread {
+        messageView.textResource = if (ownTurn) R.string.your_turn else R.string.opponent_turn
     }
 
     private fun onGameEnd(won: Boolean) {

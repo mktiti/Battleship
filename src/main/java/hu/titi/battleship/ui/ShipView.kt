@@ -2,16 +2,12 @@ package hu.titi.battleship.ui
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
-import android.nfc.Tag
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import hu.titi.battleship.model.Coordinate
-import hu.titi.battleship.model.Ship
 import org.jetbrains.anko.runOnUiThread
 import java.io.Serializable
 
@@ -71,14 +67,14 @@ class ShipView(context: Context, attributes: AttributeSet) : View(context, attri
             if (row % 2 == 0) return
             val posY = row / 2
 
-            Log.i(TAG, "posy: $posY")
+            Log.i(TAG, "pos y: $posY")
 
             val width = 4 - posY
             if (col % (width + 1) == 0) return
             val posX = col / (width + 1)
             if (posX > posY + 1) return
 
-            Log.i(TAG, "posx: $posX")
+            Log.i(TAG, "pos x: $posX")
 
             val pos = Pair(posX + 1, posY + 1)
             if (pos !in used) {

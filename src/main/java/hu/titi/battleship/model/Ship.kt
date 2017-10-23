@@ -48,13 +48,13 @@ class Ship(private val length: Int, private val position: Coordinate, private va
 
 fun parseShip(string: String): Ship? {
     val ss = string.replace("{", "").replace("}", "").split(";")
-    try {
-        return Ship(ss[0].toInt(), parseSafe(ss[1]) ?: return null, ss[2].toBoolean())
+    return try {
+        Ship(ss[0].toInt(), parseSafe(ss[1]) ?: return null, ss[2].toBoolean())
     } catch (nfe: NumberFormatException) {
         Log.i(TAG, "number format exception")
-        return null
+        null
     } catch (aie: ArrayIndexOutOfBoundsException) {
         Log.i(TAG, "array index out of bounds")
-        return null
+        null
     }
 }

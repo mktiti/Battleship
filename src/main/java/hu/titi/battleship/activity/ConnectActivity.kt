@@ -61,7 +61,7 @@ class ConnectActivity : AppCompatActivity() {
 
     }
 
-    private fun onDisconnect() {}
+    private fun onDisconnect() = Unit
 
     override fun onDestroy() {
         doAsync {

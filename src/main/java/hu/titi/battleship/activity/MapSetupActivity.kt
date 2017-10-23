@@ -1,13 +1,14 @@
 package hu.titi.battleship.activity
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import hu.titi.battleship.R
 import hu.titi.battleship.model.*
+import hu.titi.battleship.model.Map
 import hu.titi.battleship.ui.GamePanel
 import hu.titi.battleship.ui.ShipView
 import org.jetbrains.anko.sdk23.coroutines.onClick
@@ -18,12 +19,12 @@ const val MAP_SETUP_OK = 1
 
 class MapSetupActivity : AppCompatActivity() {
 
-    lateinit var gameView: GamePanel
-    lateinit var shipView: ShipView
-    lateinit var rotated: CheckBox
-    lateinit var randomize: Button
-    lateinit var undoButton: Button
-    lateinit var okButton: Button
+    private lateinit var gameView: GamePanel
+    private lateinit var shipView: ShipView
+    private lateinit var rotated: CheckBox
+    private lateinit var randomize: Button
+    private lateinit var undoButton: Button
+    private lateinit var okButton: Button
 
     private val ships = mutableListOf<Ship>()
 

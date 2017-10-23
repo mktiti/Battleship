@@ -12,7 +12,6 @@ import android.view.View
 import android.widget.LinearLayout
 import hu.titi.battleship.model.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk23.coroutines.onTouch
 
 interface GameView {
     fun updateTile(position: Coordinate, state: TileState): Boolean
@@ -127,9 +126,7 @@ class GamePanel(context: Context, attributes: AttributeSet? = null) : LinearLayo
         return coordinate
     }
 
-    override fun abort() {
-        store.place(null)
-    }
+    override fun abort() = store.place(null)
 
     fun clear() {
         for (x in 0 until SIZE) {
@@ -172,7 +169,7 @@ class GamePanel(context: Context, attributes: AttributeSet? = null) : LinearLayo
         return true
     }
 
-    override fun gameOver(won: Boolean) {}
+    override fun gameOver(won: Boolean) = Unit
 
     private operator fun get(position: Coordinate) = fields[position.x][position.y]
 

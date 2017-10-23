@@ -10,7 +10,10 @@ import hu.titi.battleship.R
 import hu.titi.battleship.model.GameType
 import hu.titi.battleship.net.GameHost
 import hu.titi.battleship.net.NetHostService
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.textResource
+import org.jetbrains.anko.uiThread
 import java.net.Inet4Address
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -58,13 +61,12 @@ class HostActivity : AppCompatActivity() {
         }
     }
 
-    private fun getIPAddress(): List<InetAddress> {
-        return NetworkInterface.getNetworkInterfaces().asSequence().flatMap {
-            it.inetAddresses.asSequence().filter { address ->
-                !address.isLoopbackAddress && address is Inet4Address
-            }
-        }.toList()
-    }
+    private fun getIPAddress(): List<InetAddress> =
+            NetworkInterface.getNetworkInterfaces().asSequence().flatMap {
+                it.inetAddresses.asSequence().filter { address ->
+                    !address.isLoopbackAddress && address is Inet4Address
+                }
+            }.toList()
 
     override fun onDestroy() {
         doAsync {
