@@ -96,6 +96,7 @@ class NetHostService : Service() {
             clientSocket = serverSocket?.accept()
             Log.i(TAG, "Server socket accepting ended")
             store.remove()
+            setupStore.remove()
             clientSocket?.let {
                 writer = BufferedWriter(OutputStreamWriter(it.getOutputStream()))
                 thread(name = "NetHost Listener") {
